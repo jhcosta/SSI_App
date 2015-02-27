@@ -45,7 +45,7 @@ public class Client {
         
         String keyString = "xptoxptoxptoxpto";
         //KeyGenerator kg = KeyGenerator.getInstance("RC4");
-        // Inicializa gerador de chaves (128bit) e gera chave
+        //Inicializa gerador de chaves (128bit) e gera chave
         //kg.init(128);
         //SecretKey key = kg.generateKey();
         SecretKey key = new SecretKeySpec(keyString.getBytes(),"RC4");
@@ -59,7 +59,9 @@ public class Client {
             Socket s = new Socket(host, port);
             //BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             //PrintWriter out = new PrintWriter(s.getOutputStream());
-            OutputStream out = s.getOutputStream();
+            //OutputStream out = s.getOutputStream();
+            CipherOutputStream out;
+            out = new CipherOutputStream(s.getOutputStream(), cipher);
             while (true) {
                 inputString = System.console().readLine();
                 if (inputString == null || inputString.equals("quit")) 
@@ -69,7 +71,7 @@ public class Client {
                 
                 // -> Enc
                 //cipher.init(Cipher.ENCRYPT_MODE,key);
-                inputBytes = cipher.doFinal(inputBytes);
+                //inputBytes = cipher.doFinal(inputBytes);
                 
                 outputBytes = new byte[inputBytes.length + 1];
                 System.arraycopy(inputBytes, 0, outputBytes, 0, inputBytes.length);

@@ -22,12 +22,14 @@ import javax.crypto.IllegalBlockSizeException;
 final class ClientThread extends Thread {
     
     private final Socket clientSocket;
-    private final InputStream input;
+    //private final InputStream input;
+    private final CipherInputStream input;
     private final byte[] bufferIn;
 
     public ClientThread(Socket socket) throws IOException {
         clientSocket = socket;
-        input = clientSocket.getInputStream();
+        // input = clientSocket.getInputStream();
+        input = new CipherInputStream(clientSocket.getInputStream(), GlobalVariables.cipher);
         bufferIn = new byte[5];
     }
     
@@ -72,7 +74,7 @@ final class ClientThread extends Thread {
         }
         // -> Dec
         //cipher.init(Cipher.DECRYPT_MODE,key);
-        bufferOut = GlobalVariables.cipher.doFinal(bufferOut);
+        // bufferOut = GlobalVariables.cipher.doFinal(bufferOut);
         System.out.println(new String(bufferOut));
     }
 }
